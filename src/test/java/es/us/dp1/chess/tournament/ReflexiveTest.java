@@ -117,9 +117,7 @@ public abstract class ReflexiveTest {
                 myField.setAccessible(true);
                 originalValue=myField.get(object);
                 myField.set(object, value);
-            } catch (NoSuchFieldException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            } catch (NoSuchFieldException e) {                
                 originalValue=invokeMethodReflexively(object, generateGetterName(fieldname));
                 Class[] paramTypes=generateParameterTypes(type,value,originalValue);
                 invokeMethodReflexivelyWithParamTypes(object, generateSetterName(fieldname),paramTypes,value);
