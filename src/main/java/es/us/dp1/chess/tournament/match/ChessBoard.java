@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of={"id"})
+@EqualsAndHashCode(callSuper = true)
 public class ChessBoard extends BaseEntity implements Cloneable {
     boolean creatorTurn;
     LocalDateTime currentTurnStart;

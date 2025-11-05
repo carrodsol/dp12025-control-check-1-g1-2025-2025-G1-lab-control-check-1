@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of={"id"})
+@EqualsAndHashCode(callSuper = true)
 public class ChessMatch extends NamedEntity implements Cloneable {
     LocalDateTime start;
     LocalDateTime finish;

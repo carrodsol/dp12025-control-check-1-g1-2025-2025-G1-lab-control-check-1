@@ -17,9 +17,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-@EqualsAndHashCode(of={"id"})
 public class Piece extends BaseEntity implements Cloneable{
     
 
