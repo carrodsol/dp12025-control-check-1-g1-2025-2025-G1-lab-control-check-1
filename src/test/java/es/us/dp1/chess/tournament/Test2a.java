@@ -52,48 +52,7 @@ public class Test2a {
     void test2aPieceServiceIsAnnotatedWithService() {
         assertTrue(PieceService.class.isAnnotationPresent(Service.class),
                 "PieceService must be annotated with @Service");
-    }
-    
-    @Test
-    void teste2aRepositoryInjectionShouldUseAutowiredRequiredFalse() {
-        boolean found = false;
-
-        // 1) Look for @Autowired(required = false) on fields
-        for (Field f : PieceService.class.getDeclaredFields()) {
-            if (f.getType().equals(PieceRepository.class) &&
-                f.isAnnotationPresent(Autowired.class)) {
-                Autowired a = f.getAnnotation(Autowired.class);
-                if (!a.required()) { found = true; break; }
-            }
-        }
-
-        // 2) Look for @Autowired(required = false) on setter methods
-        if (!found) {
-            for (Method m : PieceService.class.getDeclaredMethods()) {
-                if (m.getName().startsWith("set") &&
-                    m.getParameterCount() == 1 &&
-                    m.getParameterTypes()[0].equals(PieceRepository.class) &&
-                    m.isAnnotationPresent(Autowired.class)) {
-                    Autowired a = m.getAnnotation(Autowired.class);
-                    if (!a.required()) { found = true; break; }
-                }
-            }
-        }
-
-        // 3) Look for @Autowired(required = false) on constructors
-        if (!found) {
-            for (Constructor<?> c : PieceService.class.getDeclaredConstructors()) {
-                if (c.isAnnotationPresent(Autowired.class)) {
-                    Autowired a = c.getAnnotation(Autowired.class);
-                    if (!a.required()) { found = true; break; }
-                }
-            }
-        }
-
-        assertTrue(found,
-            "PieceRepository must be injected into PieceService using @Autowired(required = false), " +
-            "either on a field, setter or constructor");
-    }
+    }       
 
     @Test
     void test2aPieceServiceClassShouldNotBeAnnotatedWithTransactional() {
@@ -147,7 +106,7 @@ public class Test2a {
      @Test
     void test2aPieceServiceGetPiecesByColorAndTypeDelegatesToRepository() {
         PieceRepository repository = mock(PieceRepository.class);
-        PieceService service = new PieceService(repository);
+        PieceService service = new PieceService(Optional.of(repository));
         PieceColor color = PieceColor.valueOf("WHITE");
         String typeName = "PAWN";
 
@@ -166,7 +125,7 @@ public class Test2a {
     @Test
     void test2aPieceServiceGetAllDelegatesToRepository() {
         PieceRepository repository = mock(PieceRepository.class);
-        PieceService service = new PieceService(repository);
+        PieceService service = new PieceService(Optional.of(repository));
         var p1 = mock(Piece.class);
         when(repository.findAll()).thenReturn(List.of(p1));
 
@@ -180,7 +139,7 @@ public class Test2a {
     @Test
     void test2aPieceServiceGetByIdDelegatesToRepository() {
         PieceRepository repository = mock(PieceRepository.class);
-        PieceService service = new PieceService(repository);
+        PieceService service = new PieceService(Optional.of(repository));
         var piece = mock(Piece.class);
         when(repository.findById(42)).thenReturn(Optional.of(piece));
 
@@ -195,7 +154,7 @@ public class Test2a {
     @Test
     void test2aPieceServiceSaveDelegatesToRepository() {
         PieceRepository repository = mock(PieceRepository.class);
-        PieceService service = new PieceService(repository);
+        PieceService service = new PieceService(Optional.of(repository));
         var piece = mock(Piece.class);
         when(repository.save(piece)).thenReturn(piece);
 

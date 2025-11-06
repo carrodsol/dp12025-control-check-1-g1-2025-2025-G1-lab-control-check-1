@@ -1,13 +1,14 @@
 package es.us.dp1.chess.tournament.match;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PieceService {
 
     PieceRepository repository;
 
-    public PieceService(PieceRepository repository) {
-        this.repository = repository;
+    public PieceService(Optional<PieceRepository> repository) {
+        this.repository = repository.isPresent()?repository.get():null;
     }
 
     public List<Piece> getPiecesByColorAndType(PieceColor color, String typeName) {

@@ -11,14 +11,12 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 public class ChessMatch extends NamedEntity implements Cloneable {
     LocalDateTime start;
     LocalDateTime finish;
