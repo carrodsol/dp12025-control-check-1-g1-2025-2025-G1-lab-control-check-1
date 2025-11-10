@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 
-export default function MatchesLising() {
+export default function MatchesListing() {
 };
