@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import es.us.dp1.chess.tournament.exceptions.UnfeasibleMatchException;
 
 import es.us.dp1.chess.tournament.user.User;
 
@@ -23,22 +24,23 @@ public class ChessMatchService {
         this.repo = repo;        
     }
 
-    
-
-
-
     @Transactional(readOnly = true)
     public Optional<ChessMatch> getMatchById(Integer id) {
         return repo.findById(id);
     }
 
-    @Transactional
+    @Transactional(rollbackFor =UnfeasibleMatchException.class)
     public ChessMatch save(ChessMatch m) {
-        // TODO: Change to solve exercise 1:
-        return null;
+        User winner = m.getWinner();
+        if(winner != null && 
+        (m.getBlackPlayer() == winner || m.getWhitePlayer() == winner) == false) {
+            throw new UnfeasibleMatchException("No winner found in the match.");
+        }
+        if(m.getFinish() != null && m.getFinish().isBefore(m.getStart())) {
+            throw new UnfeasibleMatchException("Finish date is before start date.");
+        }
+        return repo.save(m);
     }
-    
-    
 
     @Transactional(readOnly = true)
     public List<ChessMatch> getMatches() {
