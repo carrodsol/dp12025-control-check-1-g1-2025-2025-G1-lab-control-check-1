@@ -8,7 +8,7 @@ export default function MatchesListing() {
             .then((response) => response.json())
             .then((data) => setMatches(data));
     }, []);
-
+    // Check if matches is empty and display a message if it is
     return (
         <div>
             {matches.length === 0 && <h1>NO MATCHES</h1>}
